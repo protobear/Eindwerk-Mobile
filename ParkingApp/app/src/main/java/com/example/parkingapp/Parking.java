@@ -20,17 +20,33 @@ public class Parking {
     private String totalCapacity;
     @SerializedName("parkingStatus")
     parkingStatus parkingStatus;
+    @SerializedName("contactInfo")
+    private String contactInfo;
 
-    public Parking(String id, String name, String description, String adress, String suggestedFreeThreshold, String suggestedFullThreshold, String capacityRounding, String totalCapacity, com.example.parkingapp.parkingStatus parkingStatus) {
+    public Parking(String id, String name, String description, String address, String totalCapacity, com.example.parkingapp.parkingStatus parkingStatus, String contactInfo) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.address = adress;
-        this.suggestedFreeThreshold = suggestedFreeThreshold;
-        this.suggestedFullThreshold = suggestedFullThreshold;
-        this.capacityRounding = capacityRounding;
+        this.address = address;
         this.totalCapacity = totalCapacity;
         this.parkingStatus = parkingStatus;
+        this.contactInfo = contactInfo;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
     }
 
     public String getAdress() {

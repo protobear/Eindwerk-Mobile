@@ -3,6 +3,7 @@ package com.example.parkingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,31 +80,36 @@ public class ViewHolderAdapter extends RecyclerView.Adapter<ViewHolderAdapter.Vi
         //Log.i("DOES THIS THING WORK:",String.valueOf(percentageAvailable));
         double limitForRed= 5.00;
         double limitForOrange = 25.00;
-
+        int color = 0;
         if(percentageAvailable > limitForOrange){
-            Adapter.view_BeschikbarePlaatsen.setBackgroundColor(Color.argb(255, 46, 213,115));
+            color = 0xFF2ED573;
+            Adapter.view_BeschikbarePlaatsen.setBackgroundColor(color);
 
         }
         else if(percentageAvailable > limitForRed){
-            Adapter.view_BeschikbarePlaatsen.setBackgroundColor(Color.argb(255, 255,99, 72));
+           color = 0xFFFF6348 ;
+            Adapter.view_BeschikbarePlaatsen.setBackgroundColor(color);
 
         }else{
-            Adapter.view_BeschikbarePlaatsen.setBackgroundColor(Color.argb(255,255,0,0));
+           color = 0xFFFF4D4D;
+            Adapter.view_BeschikbarePlaatsen.setBackgroundColor(color);
         }
-        Log.i("ynk",curentParking.getDescription());
 
         Adapter.view_parkingNaam.setText(parkingNaam);
         Adapter.view_BeschikbarePlaatsen.setText(beschikbarePlaatsen);
 
         //todo: idk check this again it seems pretty fucky wucky
+        int finalColor = color;
         Adapter.setItemClickListener((v, position1) -> {
             Intent intentManager = new Intent(context, InfoPage.class);
             //click_parking_huidige
+            intentManager.putExtra("color",finalColor);
             intentManager.putExtra("click_parking_huidige",beschikbarePlaatsen);
             intentManager.putExtra("click_parking_desc",curentParking.getDescription());
-            intentManager.putExtra("click_parking_Total",totalCapacity);
-            intentManager.putExtra("click_parking_Adress",curentParking.getAdress());
+            intentManager.putExtra("click_parking_Total",String.valueOf(totalCapacity));
+            intentManager.putExtra("click_parking_Adress",curentParking.getAddress());
             intentManager.putExtra("click_parking_Name",curentParking.getName());
+            intentManager.putExtra("click_parking_contact",curentParking.getContactInfo());
             //todo iets lmao
             intentManager.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intentManager);

@@ -2,6 +2,7 @@ package com.example.parkingapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +34,10 @@ public class ViewHolderAdapter extends RecyclerView.Adapter<ViewHolderAdapter.Vi
         return parkingList.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
         private TextView view_parkingNaam;
         public TextView view_BeschikbarePlaatsen;
+
         ItemClickListener itemClickListener;
 
 
@@ -42,6 +45,7 @@ public class ViewHolderAdapter extends RecyclerView.Adapter<ViewHolderAdapter.Vi
             super(view);
             view_parkingNaam = view.findViewById(R.id.ParkingNaam);
             view_BeschikbarePlaatsen = view.findViewById(R.id.BeschikbarePlaatsen);
+
             itemView.setOnClickListener(this);
 
         }
@@ -67,35 +71,42 @@ public class ViewHolderAdapter extends RecyclerView.Adapter<ViewHolderAdapter.Vi
 
         String parkingNaam = parkingList.get(position).getName();
         String beschikbarePlaatsen = String.valueOf(parkingList.get(position).parkingStatus.getAvailableCapacity());
-
-        Log.i("big machine:",parkingList.get(position).getName());
-        Log.i("big machine:",String.valueOf(parkingList.get(position).parkingStatus.getAvailableCapacity()));
-
+        Parking curentParking = parkingList.get(position);
 
         double totalCapacity = parkingList.get(position).parkingStatus.getTotalCapacity();
         double availableCapacity = parkingList.get(position).parkingStatus.getAvailableCapacity();
-        double percentageAvailable = availableCapacity / totalCapacity * 100;
-        Log.i("DOES THIS THING WORK:",String.valueOf(percentageAvailable));
+        double percentageAvailable = (availableCapacity / totalCapacity) * 100;
+        //Log.i("DOES THIS THING WORK:",String.valueOf(percentageAvailable));
         double limitForRed= 5.00;
         double limitForOrange = 25.00;
 
+        if(percentageAvailable > limitForOrange){
+            Adapter.view_BeschikbarePlaatsen.setBackgroundColor(Color.argb(255, 46, 213,115));
 
+        }
+        else if(percentageAvailable > limitForRed){
+            Adapter.view_BeschikbarePlaatsen.setBackgroundColor(Color.argb(255, 255,99, 72));
+
+        }else{
+            Adapter.view_BeschikbarePlaatsen.setBackgroundColor(Color.argb(255,255,0,0));
+        }
+        Log.i("ynk",curentParking.getDescription());
 
         Adapter.view_parkingNaam.setText(parkingNaam);
         Adapter.view_BeschikbarePlaatsen.setText(beschikbarePlaatsen);
 
         //todo: idk check this again it seems pretty fucky wucky
-        Adapter.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onItemClickListener(View v, int position) {
-                Intent intentManager = new Intent(context, InfoPage.class);
-
-
-                intentManager.putExtra("click_parking_Name",parkingNaam);
-                //todo iets lmao
-                intentManager.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intentManager);
-            }
+        Adapter.setItemClickListener((v, position1) -> {
+            Intent intentManager = new Intent(context, InfoPage.class);
+            //click_parking_huidige
+            intentManager.putExtra("click_parking_huidige",beschikbarePlaatsen);
+            intentManager.putExtra("click_parking_desc",curentParking.getDescription());
+            intentManager.putExtra("click_parking_Total",totalCapacity);
+            intentManager.putExtra("click_parking_Adress",curentParking.getAdress());
+            intentManager.putExtra("click_parking_Name",curentParking.getName());
+            //todo iets lmao
+            intentManager.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intentManager);
         });
     }
 

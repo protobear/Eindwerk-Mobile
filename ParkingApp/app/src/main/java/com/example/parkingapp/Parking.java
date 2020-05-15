@@ -6,6 +6,10 @@ public class Parking {
     private String id;
     @SerializedName("name")
     private String name;
+    @SerializedName("description")
+    private String description;
+    @SerializedName("address")
+    private String address;
     @SerializedName("suggestedFreeThreshold")
     private String suggestedFreeThreshold;
     @SerializedName("suggestedFullThreshold")
@@ -16,6 +20,26 @@ public class Parking {
     private String totalCapacity;
     @SerializedName("parkingStatus")
     parkingStatus parkingStatus;
+
+    public Parking(String id, String name, String description, String adress, String suggestedFreeThreshold, String suggestedFullThreshold, String capacityRounding, String totalCapacity, com.example.parkingapp.parkingStatus parkingStatus) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.address = adress;
+        this.suggestedFreeThreshold = suggestedFreeThreshold;
+        this.suggestedFullThreshold = suggestedFullThreshold;
+        this.capacityRounding = capacityRounding;
+        this.totalCapacity = totalCapacity;
+        this.parkingStatus = parkingStatus;
+    }
+
+    public String getAdress() {
+        return address;
+    }
+
+    public void setAdress(String adress) {
+        this.address = adress;
+    }
 
     public String getId() {
         return id;
@@ -73,13 +97,11 @@ public class Parking {
         this.parkingStatus = parkingStatus;
     }
 
-    public Parking(String id, String name, String suggestedFreeThreshold, String suggestedFullThreshold, String capacityRounding, String totalCapacity, com.example.parkingapp.parkingStatus parkingStatus) {
-        this.id = id;
-        this.name = name;
-        this.suggestedFreeThreshold = suggestedFreeThreshold;
-        this.suggestedFullThreshold = suggestedFullThreshold;
-        this.capacityRounding = capacityRounding;
-        this.totalCapacity = totalCapacity;
-        this.parkingStatus = parkingStatus;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -39,7 +39,6 @@
             android:text="Plaatsen"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:background="#c2185b"
             tools:ignore="MissingConstraints" />
     </LinearLayout>
 

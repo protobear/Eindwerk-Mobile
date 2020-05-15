@@ -28,6 +28,32 @@ public class ViewHolderAdapter extends RecyclerView.Adapter<ViewHolderAdapter.Vi
         this.context = context;
     }
 
+    @Override
+    public int getItemCount() {
+        return parkingList.size();
+    }
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private TextView view_parkingNaam;
+        public TextView view_BeschikbarePlaatsen;
+        ItemClickListener itemClickListener;
+
+
+        ViewHolder(View view) {
+            super(view);
+            view_parkingNaam = view.findViewById(R.id.ParkingNaam);
+            view_BeschikbarePlaatsen = view.findViewById(R.id.BeschikbarePlaatsen);
+            itemView.setOnClickListener(this);
+
+        }
+        @Override
+        public void onClick(View v){
+            this.itemClickListener.onItemClickListener(v,getLayoutPosition());
+        }
+        public void setItemClickListener(ItemClickListener ic){
+
+            this.itemClickListener = ic;
+        }
+    }
 
 
     @Override
@@ -37,13 +63,28 @@ public class ViewHolderAdapter extends RecyclerView.Adapter<ViewHolderAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder( ViewHolder Adapter, int position) {
+    public void onBindViewHolder ( ViewHolder Adapter, int position) {
 
         String parkingNaam = parkingList.get(position).getName();
+        String beschikbarePlaatsen = String.valueOf(parkingList.get(position).parkingStatus.getAvailableCapacity());
+
         Log.i("big machine:",parkingList.get(position).getName());
         Log.i("big machine:",String.valueOf(parkingList.get(position).parkingStatus.getAvailableCapacity()));
+
+
+        double totalCapacity = parkingList.get(position).parkingStatus.getTotalCapacity();
+        double availableCapacity = parkingList.get(position).parkingStatus.getAvailableCapacity();
+        double percentageAvailable = availableCapacity / totalCapacity * 100;
+        Log.i("DOES THIS THING WORK:",String.valueOf(percentageAvailable));
+        double limitForRed= 5.00;
+        double limitForOrange = 25.00;
+
+
+
         Adapter.view_parkingNaam.setText(parkingNaam);
-        //String int casten = String.valueOf(u int)
+        Adapter.view_BeschikbarePlaatsen.setText(beschikbarePlaatsen);
+
+        //todo: idk check this again it seems pretty fucky wucky
         Adapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {
@@ -58,29 +99,6 @@ public class ViewHolderAdapter extends RecyclerView.Adapter<ViewHolderAdapter.Vi
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return parkingList.size();
-    }
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView view_parkingNaam;
-        ItemClickListener itemClickListener;
-
-        ViewHolder(View view) {
-            super(view);
-            view_parkingNaam = view.findViewById(R.id.ParkingNaam);
-            itemView.setOnClickListener(this);
-
-        }
-        @Override
-        public void onClick(View v){
-            this.itemClickListener.onItemClickListener(v,getLayoutPosition());
-        }
-        public void setItemClickListener(ItemClickListener ic){
-
-            this.itemClickListener = ic;
-        }
-    }
 
 
 }
